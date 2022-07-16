@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Blog = mongoose.model('Blog');
 const Audit = mongoose.model('Audit');
+const User = mongoose.model('User');
 
 const router = express.Router();
 
@@ -68,6 +69,26 @@ router.get('/public/audits/filter-values',async(req,res)=>{
             statusMessages: [...new Set(statusMessages.map(item=> item.statusMessage))],
             emails: [...new Set(emails.map(item=> item.email))],
         })
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send({message:error.message});
+	}
+})
+
+router.get('/public/user/availability', async (req, res) => {
+	try {
+        const filter= {}
+        const queryParams = req?.query;
+        if(req?.query){
+            if(queryParams.email){
+                filter.email = queryParams.email
+            }
+            if(queryParams.username){
+                filter.userName = queryParams.username
+            }
+        }
+		const users = await User.find(filter);
+		res.status(200).json({availability: users.length > 0  });
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send({message:error.message});
