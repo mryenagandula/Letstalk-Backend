@@ -39,10 +39,13 @@ router.get('/public/audits/:pageIndex/:pageSize',async(req,res)=>{
         const queryParams = req?.query;
         if(req?.query){
             if(queryParams.email){
-                filter.email = queryParams.email
+                filter.email = queryParams.email === 'no-email' ? null : queryParams.email
             }
             if(queryParams.statusCode){
                 filter.statusCode = queryParams.statusCode
+            }
+            if(queryParams.statusMessage){
+                filter.statusMessage = queryParams.statusMessage
             }
         }
 		const {pageIndex,pageSize}= req.params;
