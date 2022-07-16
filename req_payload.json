@@ -1,0 +1,15 @@
+{
+    "user_creation_payload": {
+        "userName": "",
+        "firstName": "",
+        "middleName": "",
+        "secondName": "",
+        "mobile": "",
+        "gender": "",
+        "dob": "",
+        "email": "",
+        "password": "",
+        "bio": "",
+        "hobbies": ""
+    }
+}

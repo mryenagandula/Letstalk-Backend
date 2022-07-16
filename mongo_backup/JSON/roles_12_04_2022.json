@@ -1,0 +1,33 @@
+[{
+  "_id": {
+    "$oid": "620954fd7b95793ba41532c3"
+  },
+  "description": "User Role",
+  "title": "USER",
+  "userId": {
+    "$oid": "6207cc9ecad1500004ecba33"
+  },
+  "createdAt": {
+    "$date": "2022-02-13T18:59:09.732Z"
+  },
+  "updatedAt": {
+    "$date": "2022-02-13T18:59:09.732Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620955227b95793ba41532c7"
+  },
+  "description": "Admin Role",
+  "title": "ADMIN",
+  "userId": {
+    "$oid": "6207cc9ecad1500004ecba33"
+  },
+  "createdAt": {
+    "$date": "2022-02-13T18:59:46.076Z"
+  },
+  "updatedAt": {
+    "$date": "2022-02-13T18:59:46.076Z"
+  },
+  "__v": 0
+}]
