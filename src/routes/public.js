@@ -38,7 +38,7 @@ router.get('/public/audits/:pageIndex/:pageSize',async(req,res)=>{
     try {
         const filter= {}
         const queryParams = req?.query;
-        if(req?.query){
+        if(!queryParams.searchText){
             if(queryParams.email){
                 filter.email = queryParams.email === 'no-email' ? null : queryParams.email
             }
@@ -48,6 +48,9 @@ router.get('/public/audits/:pageIndex/:pageSize',async(req,res)=>{
             if(queryParams.statusMessage){
                 filter.statusMessage = queryParams.statusMessage
             }
+        }
+        if(queryParams.searchText){
+            filter.email = new RegExp(queryParams.searchText)
         }
 		const {pageIndex,pageSize}= req.params;
 		const allAudits = await Audit.find(filter);
