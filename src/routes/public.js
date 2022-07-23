@@ -108,4 +108,14 @@ router.get('/public/users', async (req, res) => {
 	}
 })
 
+router.get('/users/:id',async(req,res)=>{
+	try {
+		const user = await User.findById(req.params.id,{password:0}).populate('roles');
+		res.status(200).json({user})
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send({message:error.message});
+	}
+})
+
 module.exports = router;
