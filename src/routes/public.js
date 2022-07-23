@@ -108,7 +108,7 @@ router.get('/public/users', async (req, res) => {
 	}
 })
 
-router.get('/users/:id',async(req,res)=>{
+router.get('/public/users/:id',async(req,res)=>{
 	try {
 		const user = await User.findById(req.params.id,{password:0}).populate('roles');
 		res.status(200).json({user})
