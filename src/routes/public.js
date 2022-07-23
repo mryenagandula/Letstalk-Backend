@@ -98,4 +98,14 @@ router.get('/public/user/availability', async (req, res) => {
 	}
 })
 
+router.get('/public/users', async (req, res) => {
+	try {
+		const users = await User.find({},{password: 0});
+		res.status(200).json({users});
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send({message:error.message});
+	}
+})
+
 module.exports = router;
