@@ -3,6 +3,8 @@ require('./schemas/Track.js');
 require('./schemas/Blog.js');
 require('./schemas/Role.js');
 require('./schemas/Audit.js');
+require('./schemas/Contries.js');
+
 
 const port = process.env.PORT || 3000;
 
@@ -23,6 +25,8 @@ const roleRoute = require('./routes/role');
 const publicRoute = require('./routes/public');
 
 const auditRoute = require('./routes/audit');
+
+const contryRoute = require('./routes/contries');
 
 const mongoose = require('mongoose');
 
@@ -58,6 +62,8 @@ app.use(blogRoute);
 app.use(publicRoute);
 
 app.use(auditRoute);
+
+app.use(contryRoute);
 
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/nodedb5"
 
