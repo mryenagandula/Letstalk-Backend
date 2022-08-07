@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const Blog = mongoose.model('Blog');
 const Audit = mongoose.model('Audit');
 const User = mongoose.model('User');
+const Countries = mongoose.model('Country');
+
 
 const router = express.Router();
 
@@ -116,6 +118,19 @@ router.get('/public/users/:id',async(req,res)=>{
 		console.log(error.message);
 		res.status(500).send({message:error.message});
 	}
+})
+
+router.get('/public/countries', async (req, res) => {
+    try {
+        const countries = await Countries.find();
+        res.status(201).send({countries,totalCount:countries.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
 })
 
 module.exports = router;
