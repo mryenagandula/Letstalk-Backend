@@ -9,7 +9,7 @@ router.use(requireAuth)
 
 router.get('/countries', async (req, res) => {
     try {
-        const countries = await Countries.find();
+        const countries = await Countries.find().populate('states');
         res.status(201).send({countries,totalCount:countries.length});
     }
     catch (err) {

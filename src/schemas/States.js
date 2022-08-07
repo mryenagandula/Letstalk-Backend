@@ -1,16 +1,26 @@
 const mongoose = require('mongoose');
-
 const StatesSchema = mongoose.Schema({
-    statesCode :{
+    state:{
+      type:String,
+      length:10,
+      required:true
+    },
+    stateCode :{
         type:String,
         length:10,
         required: true,
-        unique:true
     },
-    title:{
+    latitude:{
         type:String,
         length:20,
-        required:true
+    },
+    longitude:{
+      type:String,
+      length:20,
+    },
+    countryId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref :'Country'
     },
     districts: [
 		{

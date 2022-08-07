@@ -4,6 +4,9 @@ require('./schemas/Blog.js');
 require('./schemas/Role.js');
 require('./schemas/Audit.js');
 require('./schemas/Contries.js');
+require('./schemas/States.js');
+require('./schemas/Districts.js');
+
 
 
 const port = process.env.PORT || 3000;
@@ -27,6 +30,9 @@ const publicRoute = require('./routes/public');
 const auditRoute = require('./routes/audit');
 
 const contryRoute = require('./routes/contries');
+
+const stateRoute = require('./routes/states');
+
 
 const mongoose = require('mongoose');
 
@@ -65,13 +71,14 @@ app.use(auditRoute);
 
 app.use(contryRoute);
 
+app.use(stateRoute);
+
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/nodedb5"
 
 mongoose.connect(mongoUri, {
 	useNewUrlParser:true,
 	useCreateIndex:true,
 	useUnifiedTopology:true,
-	bufferCommands:false,
 	maxPoolSize:50,
 	minPoolSize:10,
 	keepAlive:true,
