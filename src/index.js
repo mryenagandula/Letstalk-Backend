@@ -5,7 +5,7 @@ require('./schemas/Role.js');
 require('./schemas/Audit.js');
 require('./schemas/Contries.js');
 require('./schemas/States.js');
-require('./schemas/Districts.js');
+require('./schemas/Cities.js');
 
 
 
@@ -32,6 +32,8 @@ const auditRoute = require('./routes/audit');
 const contryRoute = require('./routes/contries');
 
 const stateRoute = require('./routes/states');
+
+const path = require('path')
 
 
 const mongoose = require('mongoose');
@@ -93,8 +95,8 @@ mongoose.connection.on('error',(err)=>{
 	console.error('mongodb connection not established' +err);
 });
 
-app.get('/',(req,res)=>{
-	res.json({message:'Health is good'});
+app.get('/welcome',(req,res)=>{
+	res.sendFile(path.join(__dirname+'/index.html'))
 });
 
 app.listen(port,()=>{

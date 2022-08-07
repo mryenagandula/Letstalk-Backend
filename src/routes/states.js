@@ -11,7 +11,20 @@ router.use(requireAuth)
 
 router.get('/states', async (req, res) => {
     try {
-        const states = await States.find().populate('districts');;
+        const states = await States.find();
+        res.status(201).send({states,totalCount:states.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
+})
+
+router.get('/states/:id', async (req, res) => {
+    try {
+        const states = await States.find({countryId:req.params.id});
         res.status(201).send({states,totalCount:states.length});
     }
     catch (err) {

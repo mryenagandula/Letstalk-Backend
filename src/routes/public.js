@@ -4,6 +4,8 @@ const Blog = mongoose.model('Blog');
 const Audit = mongoose.model('Audit');
 const User = mongoose.model('User');
 const Countries = mongoose.model('Country');
+const States = mongoose.model('States');
+const Cities = mongoose.model('cities');
 
 
 const router = express.Router();
@@ -124,6 +126,58 @@ router.get('/public/countries', async (req, res) => {
     try {
         const countries = await Countries.find();
         res.status(201).send({countries,totalCount:countries.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
+})
+
+router.get('/public/states', async (req, res) => {
+    try {
+        const states = await States.find();
+        res.status(201).send({states,totalCount:states.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
+})
+
+router.get('/public/states/:id', async (req, res) => {
+    try {
+        const states = await States.find({countryId:req.params.id});
+        res.status(201).send({states,totalCount:states.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
+})
+
+router.get('/public/cities', async (req, res) => {
+    try {
+        const cities = await Cities.find();
+        res.status(201).send({cities,totalCount:cities.length});
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({
+            message: err.message
+        })
+    }
+})
+
+router.get('/public/cities/:name', async (req, res) => {
+    try {
+        const cities = await Cities.find({state_name:req.params.name});
+        res.status(201).send({cities,totalCount:cities.length});
     }
     catch (err) {
         console.log(err);

@@ -21,13 +21,7 @@ const StatesSchema = mongoose.Schema({
     countryId:{
       type: mongoose.Schema.Types.ObjectId,
       ref :'Country'
-    },
-    districts: [
-		{
-		  type: mongoose.Schema.Types.ObjectId,
-		  ref: "Districts"
-		}
-	],
+    }
 },{ timestamps: true }
 )
 
