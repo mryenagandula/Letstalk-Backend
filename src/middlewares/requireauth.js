@@ -6,7 +6,8 @@ const User = mongoose.model('User');
 
 module.exports=(req,res, next)=>{
 	const {authorization} = req.headers;
-	if(req.originalUrl.includes('/public/') || req.originalUrl.includes('/welcome')){
+	console.log(req.originalUrl)
+	if(req.originalUrl.includes('/public/') || req.originalUrl.includes('/welcome') || req.originalUrl.length===0 || req.originalUrl.length===1){
 		next();
 		return;
 	}
