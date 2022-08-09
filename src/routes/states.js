@@ -60,7 +60,7 @@ router.post('/states' , async (req, res) => {
                 try {
                     const stateDetails =await stateData.save();
                     countryD.states = [...countryD.states,stateDetails?._id]
-                    await countryD.save();
+                    //await countryD.save();
                     logs.push(`${countryD.country} - ${stateDetails.state} Added to DB Successfully `)
                 } catch (error) {
                     console.log(error.message)
