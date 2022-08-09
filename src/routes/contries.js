@@ -30,7 +30,7 @@ router.post('/countries' , async (req, res) => {
                 countryCode,country,isoCodes,population,area,gdpUsd, states:[]
             })
             try {
-                await contry.save();
+                //await contry.save();
                 res.status(201).send(contry);
             } catch (error) {
                 res.status(500).send({ message: error.message });
