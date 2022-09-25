@@ -73,7 +73,9 @@ const userSchema = new mongoose.Schema({
 		  ref: "Role"
 		}
 	],
-	hobbies:[String]
+	id:{
+		type: 'string'
+	}
 }, { timestamps: true }
 
 );

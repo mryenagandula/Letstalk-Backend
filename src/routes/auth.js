@@ -16,7 +16,13 @@ const router = express.Router();
 router.get('/users',[requireAuth,adminAuth],async(req,res)=>{
 	try {
 		const users = await User.find({},{password:0}).populate('roles');
-		res.status(200).send({users})
+		const usersData =[]
+        for (let index = 0; index < users.length; index++) {
+            const element = users[index];
+            element["id"] = element._id;
+            usersData.push(element);
+        }
+		res.status(200).send({users:usersData})
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send({message:error.message});

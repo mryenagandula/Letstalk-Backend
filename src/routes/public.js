@@ -104,8 +104,14 @@ router.get('/public/user/availability', async (req, res) => {
 
 router.get('/public/users', async (req, res) => {
 	try {
-		const users = await User.find({},{password: 0});
-		res.status(200).json({users});
+		const users = await User.find({},{password: 0}).populate('roles');
+        const usersData =[]
+        for (let index = 0; index < users.length; index++) {
+            const element = users[index];
+            element["id"] = element._id;
+            usersData.push(element);
+        }
+		res.status(200).json({users:usersData});
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send({message:error.message});
