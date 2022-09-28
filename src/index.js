@@ -6,8 +6,9 @@ require('./schemas/Audit.js');
 require('./schemas/Contries.js');
 require('./schemas/States.js');
 require('./schemas/Cities.js');
-
-
+require('./schemas/Tag');
+require('./schemas/Category');
+require('./schemas/Comment');
 
 const port = process.env.PORT || 3000;
 
@@ -32,6 +33,13 @@ const auditRoute = require('./routes/audit');
 const contryRoute = require('./routes/contries');
 
 const stateRoute = require('./routes/states');
+
+const tagsRoute = require('./routes/tags');
+
+const categoryRoute = require('./routes/categories');
+
+const commentRoute = require('./routes/comments');
+
 
 const path = require('path')
 
@@ -74,6 +82,13 @@ app.use(auditRoute);
 app.use(contryRoute);
 
 app.use(stateRoute);
+
+app.use(tagsRoute);
+
+app.use(categoryRoute);
+
+app.use(commentRoute);
+
 
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/nodedb5"
 
