@@ -75,6 +75,10 @@ const userSchema = new mongoose.Schema({
 	],
 	id:{
 		type: 'string'
+	},
+	letsTalkMember:{
+		type:'boolean',
+		default:false
 	}
 }, { timestamps: true }
 

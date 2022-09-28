@@ -12,8 +12,12 @@ const tagSchema = mongoose.Schema({
     userId:{
 		type: mongoose.Schema.Types.ObjectId,
 		ref :'User'
-	}
+	},
+    blogs:[{
+		type: mongoose.Schema.Types.ObjectId,
+		ref :'Blog'
+	}]
 },{ timestamps: true }
 )
 
-mongoose.model('tag',tagSchema);
+mongoose.model('Tags',tagSchema);
