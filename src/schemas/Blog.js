@@ -27,7 +27,7 @@ const blogSchema = mongoose.Schema({
 	}],
     tags:[{
 		type: mongoose.Schema.Types.ObjectId,
-		ref :'Tag'
+		ref :'Tags'
 	}],
     published:{
         type:'boolean',

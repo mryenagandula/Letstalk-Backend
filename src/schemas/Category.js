@@ -12,7 +12,11 @@ const categorySchema = mongoose.Schema({
     userId:{
 		type: mongoose.Schema.Types.ObjectId,
 		ref :'User'
-	}
+	},
+    blogs:[{
+		type: mongoose.Schema.Types.ObjectId,
+		ref :'Blog'
+	}]
 },{ timestamps: true }
 )
 
