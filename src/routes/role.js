@@ -35,7 +35,7 @@ router.get('/roles/:pageIndex/:pageSize',async (req, res) => {
     }
 })
  
-router.post('/roles/' , async (req, res) => {
+router.post('/roles/' ,[requireAuth,adminAuth], async (req, res) => {
     const { description,title } = req.body;
     const role = new Role({
         description, title, userId:req.user._id
@@ -48,7 +48,7 @@ router.post('/roles/' , async (req, res) => {
     }
 });
 
-router.put('/roles/assignee' , async (req, res) => {
+router.put('/roles/assignee' , [requireAuth,adminAuth],  async (req, res) => {
     const { userId, roleId, roleTitle} = req.body;
     try {
         const user =await User.findOne({_id:userId},{password:0}).populate('roles');
@@ -67,7 +67,7 @@ router.put('/roles/assignee' , async (req, res) => {
 });
 
 
-router.put('/roles/remove/assignee' , async (req, res) => {
+router.put('/roles/remove/assignee',[requireAuth,adminAuth], async (req, res) => {
     const { userId, roleId, roleTitle} = req.body;
     try {
         const user =await User.findOne({_id:userId},{password:0}).populate('roles');
