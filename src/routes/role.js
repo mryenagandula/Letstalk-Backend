@@ -1,5 +1,6 @@
 const express = require('express');
 const requireAuth = require('../middlewares/requireauth.js');
+const adminAuth = require('../middlewares/adminauth');
 const mongoose = require('mongoose');
 const Role = mongoose.model('Role');
 const User = mongoose.model('User');
