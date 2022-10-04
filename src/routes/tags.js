@@ -62,10 +62,15 @@ router.put('/tags/:id' ,async (req, res) => {
     const { description,title } = req.body;
     try {
         const tag = await Tag.findById(req.params.id);
-        tag.title = title;
-        tag.description = description;
-        const updatedTag = await tag.save();
-        res.status(201).json(updatedTag);
+        if (tag.userId === req.user._id) {
+            tag.title = title;
+            tag.description = description;
+            const updatedTag = await tag.save();
+            res.status(201).json(updatedTag);
+        }
+        else {
+            throw new Error(`Same user only allows to modify the tag`);
+        }
     } catch (error) {
         res.status(402).send({ message: 'Tag is not found with this id ::' + req.params.id })
     }
