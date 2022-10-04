@@ -50,6 +50,25 @@ router.get('/user/profile',requireAuth,async(req,res)=>{
 	}
 })
 
+router.put('/user/profile/update',requireAuth,async(req,res)=>{
+	try {
+		const user = await User.findById(req.user._id);
+		const { firstName, middleName, secondName, mobile, gender, dob, bio } = req.body;
+		user.firstName = firstName;
+		user.middleName = middleName;
+		user.secondName = secondName;
+		user.mobile = mobile;
+		user.gender = gender;
+		user.dob = dob;
+		user.bio = bio;
+		await user.save();
+		res.status(200).json({message: "user updated successfully !!!"});
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send({message:error.message});
+	}
+})
+
 router.get('/users/:pageIndex/:pageSize',[requireAuth,adminAuth],async(req,res)=>{
 	try {
 		const {pageIndex,pageSize}= req.params;
