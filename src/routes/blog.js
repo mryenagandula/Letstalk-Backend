@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Blog = mongoose.model('Blog');
 const Tag = mongoose.model('Tags');
 const Category = mongoose.model('Category');
+const Comment = mongoose.model('Comment');
 const router = express.Router();
 
 router.use(requireAuth)
@@ -70,11 +71,16 @@ router.put('/blogs/:id' ,async (req, res) => {
     const { description,title,featureImageUri } = req.body;
     try {
         const blog = await Blog.findById(req.params.id);
-        blog.title = title;
-        blog.description = description;
-        blog.featureImageUri = featureImageUri;
-        const updatedBlog = await blog.save();
-        res.status(201).json(updatedBlog);
+        if(blog.userId === req.user._id) {
+            blog.title = title;
+            blog.description = description;
+            blog.featureImageUri = featureImageUri;
+            const updatedBlog = await blog.save();
+            res.status(201).json(updatedBlog);
+        }
+        else{
+            throw new Error(`Same user only allows to modify the blog`);
+        }
     } catch (error) {
         res.status(402).send({ message: 'blog not found with this id ::' + req.params.id })
     }
@@ -97,12 +103,13 @@ router.get('/blogs/:id',async(req,res)=>{
 
 router.get('/blogs', async (req, res) => {
     try {
-        const blogs = await Blog.find();
-        res.status(201).send({blogs,totalCount:blogs.length})
+        const blogs = await Blog.find()
         .populate('comments')
         .populate('categories')
         .populate('tags')
         .populate('userId',{password:0,roles:0,hobbies:0,dob:0,email_Verified:0,activated:0,createdAt:0,updatedAt:0,mobile: 0});
+
+        res.status(201).send({blogs,totalCount:blogs.length})
     }
     catch (err) {
         console.log(err);
