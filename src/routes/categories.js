@@ -61,11 +61,16 @@ router.post('/categories' , async (req, res) => {
 router.put('/categories/:id' ,async (req, res) => {
     const { description,title } = req.body;
     try {
-        const category = await Category.findById(req.params.id);
-        category.title = title;
-        category.description = description;
-        const updatedCategory = await category.save();
-        res.status(201).json(updatedCategory);
+        if(category.userId === req.user._id) {
+            const category = await Category.findById(req.params.id);
+            category.title = title;
+            category.description = description;
+            const updatedCategory = await category.save();
+            res.status(201).json(updatedCategory);
+        }
+        else{
+            throw new Error(`Same user only allows to modify the category`);
+        }
     } catch (error) {
         res.status(402).send({ message: 'Category is not found with this id ::' + req.params.id })
     }
