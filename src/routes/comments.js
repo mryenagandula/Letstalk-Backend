@@ -61,9 +61,14 @@ router.put('/comments/:id' ,async (req, res) => {
     const { description,text } = req.body;
     try {
         const comment = await Comment.findById(req.params.id);
-        comment.text = text;
-        const updateComment = await comment.save();
-        res.status(201).json(updateComment);
+        if (comment.userId === req.user._id) {
+            comment.text = text;
+            const updateComment = await comment.save();
+            res.status(201).json(updateComment);
+        }
+        else{
+            throw new Error(`Same user only allows to modify the comment`);
+        }
     } catch (error) {
         res.status(402).send({ message: 'Comment is not found with this id ::' + req.params.id })
     }
