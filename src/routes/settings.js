@@ -38,7 +38,6 @@ router.put('/settings/:id' ,async (req, res) => {
     try {
         const setting = await Settings.findById(req.params.id);
         if (String(setting.userId) === String(req.user._id)) {
-            console.log('dfsfdsf');
             setting.theme = theme;
             setting.emailSubscriptions = emailSubscriptions;
             setting.notifications = notifications;
