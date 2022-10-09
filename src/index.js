@@ -9,6 +9,8 @@ require('./schemas/Cities.js');
 require('./schemas/Tag');
 require('./schemas/Category');
 require('./schemas/Comment');
+require('./schemas/Settings');
+require('./schemas/Notifications');
 
 const port = process.env.PORT || 3000;
 
@@ -39,6 +41,10 @@ const tagsRoute = require('./routes/tags');
 const categoryRoute = require('./routes/categories');
 
 const commentRoute = require('./routes/comments');
+
+const settingRoute = require('./routes/settings');
+
+const notificationRoute = require('./routes/notifications');
 
 
 const path = require('path')
@@ -88,6 +94,10 @@ app.use(tagsRoute);
 app.use(categoryRoute);
 
 app.use(commentRoute);
+
+app.use(settingRoute);
+
+app.use(notificationRoute);
 
 
 const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/nodedb5"
