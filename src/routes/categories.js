@@ -61,7 +61,7 @@ router.post('/categories' , async (req, res) => {
 router.put('/categories/:id' ,async (req, res) => {
     const { description,title } = req.body;
     try {
-        if(category.userId === req.user._id) {
+        if(String(category.userId) === String(req.user._id)) {
             const category = await Category.findById(req.params.id);
             category.title = title;
             category.description = description;
@@ -103,8 +103,8 @@ router.get('/categories', async (req, res) => {
 router.get('/categories/:pageIndex/:pageSize', async (req, res) => {
     try {
         const {pageIndex,pageSize}= req.params;
-		const allCategories = await Category.find({published});
-		const categories = await Category.find({published}).limit(parseInt(pageSize)).skip(parseInt(pageSize)*parseInt(pageIndex));
+		const allCategories = await Category.find({});
+		const categories = await Category.find({}).limit(parseInt(pageSize)).skip(parseInt(pageSize)*parseInt(pageIndex));
         res.status(201).send({categories,totalCount:allCategories.length});
     }
     catch (err) {

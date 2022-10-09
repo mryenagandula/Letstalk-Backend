@@ -5,6 +5,7 @@ const Blog = mongoose.model('Blog');
 const Tag = mongoose.model('Tags');
 const Category = mongoose.model('Category');
 const Comment = mongoose.model('Comment');
+const Notifications = mongoose.model('Notifications');
 const router = express.Router();
 
 router.use(requireAuth)
@@ -61,6 +62,17 @@ router.post('/blogs' , async (req, res) => {
                 await category.save();
             });
         }
+
+        
+        const notification = new Notifications({
+            title: "PUBLISHED BLOG",
+            description: `blog ${blog.title} is published successfully ${req.user.firstName} ${req.user.secondName}`,
+            refType: "Blog",
+            refId : blog._id,
+            userId:req.user._id
+        })
+        await notification.save();
+    
         res.status(201).send(blog);
     } catch (error) {
         res.status(500).send({ message: error.message });
@@ -71,11 +83,19 @@ router.put('/blogs/:id' ,async (req, res) => {
     const { description,title,featureImageUri } = req.body;
     try {
         const blog = await Blog.findById(req.params.id);
-        if(blog.userId === req.user._id) {
+        if(String(blog.userId) === String(req.user._id)) {
             blog.title = title;
             blog.description = description;
             blog.featureImageUri = featureImageUri;
             const updatedBlog = await blog.save();
+            const notification = new Notifications({
+                title: "BLOG UPDATION",
+                description: `blog ${updatedBlog.title} is updated successfully ${req.user.firstName} ${req.user.secondName}`,
+                refType: "Blog",
+                refId : updatedBlog._id,
+                userId:req.user._id
+            })
+            await notification.save();
             res.status(201).json(updatedBlog);
         }
         else{

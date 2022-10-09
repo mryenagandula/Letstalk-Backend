@@ -61,7 +61,7 @@ router.put('/comments/:id' ,async (req, res) => {
     const { description,text } = req.body;
     try {
         const comment = await Comment.findById(req.params.id);
-        if (comment.userId === req.user._id) {
+        if (String(comment.userId) === String(req.user._id)) {
             comment.text = text;
             const updateComment = await comment.save();
             res.status(201).json(updateComment);

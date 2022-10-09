@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 const Role = mongoose.model('Role');
+const Settings = mongoose.model('Settings');
 
 const jwt = require('jsonwebtoken');
 
@@ -81,7 +82,7 @@ router.get('/users/:pageIndex/:pageSize',[requireAuth,adminAuth],async(req,res)=
 	}
 })
 
-router.post('/signup',async(req,res)=>{
+router.post('/signup',[auditAuth],async(req,res)=>{
 	try{
 		if(req.body?.roles){
 			const roles = await Role.find({title : {$in: req.body.roles}});
@@ -115,6 +116,18 @@ router.post('/signin',[auditAuth], async (req, res) => {
 		if (!user) {
 			return res.status(402).send({ "message": "User not found with the mentioned email id" });
 		}
+		const settings = await Settings.find({userId:user._id});
+        if(settings.length === 0){
+			const setting = new Settings({
+				theme:false,
+				emailSubscriptions:false,
+				notifications:false,
+				userId:user._id
+			})
+			await setting.save();
+			user.settings = setting._id;
+			await user.save();
+		}
 		await user.comparePassword(password);
 		const jwtSecretKey = process.env.JWT_SECRET_KEY || "MY_SECRET_KEY_koseksi_pachipulusula";
 		const jwtTokenExpireTime = Number(process.env.JWT_TOKEN_EXPIRATION_TIME) || 86400
@@ -125,7 +138,7 @@ router.post('/signin',[auditAuth], async (req, res) => {
 				expiresIn: jwtTokenExpireTime
 			}
 		);
-		const userDetails= await User.findOne({ _id:user._id },{password:0}).populate("roles");
+		const userDetails= await User.findOne({ _id:user._id },{password:0}).populate("roles").populate("settings");
 		res.send({ token, user: userDetails });
 	}
 	catch (err) {

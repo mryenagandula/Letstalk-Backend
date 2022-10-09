@@ -6,79 +6,84 @@ const bcrypt = require('bcrypt');
 
 //creating user Model
 const userSchema = new mongoose.Schema({
-	userName:{
+	userName: {
 		type: 'string',
 		unique: true,
-		length:12,
-		required: true	
+		length: 12,
+		required: true
 	},
-	firstName:{
+	firstName: {
 		type: 'string',
-		length:20,
-		required: true	
+		length: 20,
+		required: true
 	},
-	middleName:{
+	middleName: {
 		type: 'string',
 		required: false,
-		length:20,
-		default:null
+		length: 20,
+		default: null
 	},
-	secondName:{
+	secondName: {
 		type: 'string',
-		length:20,
-		required: true	
+		length: 20,
+		required: true
 	},
-	mobile:{
+	mobile: {
 		type: 'string',
 		unique: true,
-		required: true	
+		required: true
 	},
-	gender:{
+	gender: {
 		type: 'string',
-		enum: ["Male", "Female","Others"],
-		required: true	
+		enum: ["Male", "Female", "Others"],
+		required: true
 	},
-	dob:{
+	dob: {
 		type: 'string',
-		required: true	
+		required: true
 	},
 	email: {
 		type: 'string',
 		unique: true,
-		length:20,
+		length: 20,
 		required: true
 	},
 	password: {
 		type: 'string',
-		length:16,
-		required:true,
-		
+		length: 16,
+		required: true,
+
 	},
-	email_Verified:{
-		type:'boolean',
-		default:false
+	email_Verified: {
+		type: 'boolean',
+		default: false
 	},
-	activated:{
-		type:'boolean',
-		default:false
+	activated: {
+		type: 'boolean',
+		default: false
 	},
-	bio:{
-		type:'string',
-		length:100,
-		default:null
+	bio: {
+		type: 'string',
+		length: 100,
+		default: null
 	},
 	roles: [
 		{
-		  type: mongoose.Schema.Types.ObjectId,
-		  ref: "Role"
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Role"
 		}
 	],
-	id:{
+	settings:
+	{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Settings"
+	},
+	id: {
 		type: 'string'
 	},
-	letsTalkMember:{
-		type:'boolean',
-		default:false
+	letsTalkMember: {
+		type: 'boolean',
+		default: false
 	}
 }, { timestamps: true }
 
@@ -86,21 +91,21 @@ const userSchema = new mongoose.Schema({
 
 
 //creating pre save hook in userschema
-userSchema.pre('save',function(next){
+userSchema.pre('save', function (next) {
 	//will get user obj
 	const user = this;
 	//checking user password is modified
-	if(!user.isModified('password')){
+	if (!user.isModified('password')) {
 		return next();
 	}
 
-	bcrypt.genSalt(10,(err,salt)=>{
-		if(err){
+	bcrypt.genSalt(10, (err, salt) => {
+		if (err) {
 			return next(err);
 		}
 		//creating Hash bcrypt with salt 
-		bcrypt.hash(user.password,salt,(err,hash)=>{
-			if(err){
+		bcrypt.hash(user.password, salt, (err, hash) => {
+			if (err) {
 				return next(err);
 			}
 			user.password = hash;//change userdefined password to hash
@@ -111,15 +116,15 @@ userSchema.pre('save',function(next){
 })
 
 //creating comparePassword method in userSchema
-userSchema.methods.comparePassword = function(candidatePassword){
-	const user=this;
+userSchema.methods.comparePassword = function (candidatePassword) {
+	const user = this;
 	//creating Promise for checking user password
-	return new Promise((resolve,reject)=>{
-		bcrypt.compare(candidatePassword,user.password,(err,isMatch)=>{
-			if(err){
+	return new Promise((resolve, reject) => {
+		bcrypt.compare(candidatePassword, user.password, (err, isMatch) => {
+			if (err) {
 				return reject(err);
 			}
-			if(!isMatch){
+			if (!isMatch) {
 				return reject(false);
 			}
 			resolve(true);
@@ -129,6 +134,6 @@ userSchema.methods.comparePassword = function(candidatePassword){
 
 
 //add userSchema inside mongoose because mongoose internally connect with mongoDb
-mongoose.model('User',userSchema);
+mongoose.model('User', userSchema);
 
 

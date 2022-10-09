@@ -103,8 +103,8 @@ router.get('/tags', async (req, res) => {
 router.get('/tags/:pageIndex/:pageSize', async (req, res) => {
     try {
         const {pageIndex,pageSize}= req.params;
-		const allTags = await Tag.find({published});
-		const tags = await Tag.find({published}).limit(parseInt(pageSize)).skip(parseInt(pageSize)*parseInt(pageIndex));
+		const allTags = await Tag.find({});
+		const tags = await Tag.find({}).limit(parseInt(pageSize)).skip(parseInt(pageSize)*parseInt(pageIndex));
         res.status(201).send({tags,totalCount:allTags.length});
     }
     catch (err) {
